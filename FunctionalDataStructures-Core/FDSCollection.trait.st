@@ -39,6 +39,12 @@ FDSCollection >> add: anElement [
 ]
 
 { #category : #enumerating }
+FDSCollection >> anySatisfy: aBlock [ 
+	self detect: aBlock ifNone: [ ^ false ].
+	^ true.
+]
+
+{ #category : #enumerating }
 FDSCollection >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
 ]
