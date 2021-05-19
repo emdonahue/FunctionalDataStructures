@@ -14,6 +14,11 @@ FDSAbstractQueueFull >> add: anElement [
 	^ self copy head: head; tail: (tail add: anElement).
 ]
 
+{ #category : #lazy }
+FDSAbstractQueueFull >> append: aQueue [
+	^ self class head: head tail: (aQueue tail append: (aQueue head append: tail)).
+]
+
 { #category : #enumerating }
 FDSAbstractQueueFull >> do: aBlock [
 	head do: aBlock.
@@ -23,6 +28,11 @@ FDSAbstractQueueFull >> do: aBlock [
 { #category : #accessing }
 FDSAbstractQueueFull >> first [ 
 	^ head first.
+]
+
+{ #category : #'private-accessing' }
+FDSAbstractQueueFull >> head [ 	
+	^ head.
 ]
 
 { #category : #accessing }
@@ -42,6 +52,17 @@ FDSAbstractQueueFull >> rest [
 	^ head rest 
 		ifEmpty: [ self class head: tail reverse ]
 		ifNotEmpty: [ self class head: head rest tail: tail ].
+]
+
+{ #category : #enumerating }
+FDSAbstractQueueFull >> reverseDo: aBlock [
+	tail do: aBlock.
+	head reverseDo: aBlock.
+]
+
+{ #category : #'private-accessing' }
+FDSAbstractQueueFull >> tail [ 	
+	^ tail.
 ]
 
 { #category : #accessing }

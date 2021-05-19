@@ -44,6 +44,11 @@ FDSCollection >> anySatisfy: aBlock [
 	^ true.
 ]
 
+{ #category : #converting }
+FDSCollection >> asLinkedList [
+	^ self reverseInject: self listClass empty into: [ :l :e | l add: e ].
+]
+
 { #category : #enumerating }
 FDSCollection >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
@@ -130,4 +135,20 @@ FDSCollection >> printOn: aStream [
 { #category : #removing }
 FDSCollection >> remove: anElement [
 	^ self rejectOne: [ :e | anElement = e ].
+]
+
+{ #category : #removing }
+FDSCollection >> remove: anElement ifAbsent: aBlock [
+	| present r |
+	present := false.
+	r := self rejectOne: [ :e | present := present | (anElement = e) ].
+	^ present ifTrue: r ifFalse: aBlock.
+]
+
+{ #category : #'as yet unclassified' }
+FDSCollection >> reverseInject: aValue into: aBlock [ 	
+	| v |
+	v := aValue.
+	self reverseDo: [ :e | v := aBlock value: v value: e ].
+	^ v.
 ]

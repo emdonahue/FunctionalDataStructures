@@ -9,6 +9,11 @@ Trait {
 	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
+{ #category : #lazy }
+FDSAbstractLinkedListFull >> append: aLinkedList [
+	^ (rest append: aLinkedList) add: first.
+]
+
 { #category : #enumerating }
 FDSAbstractLinkedListFull >> do: aBlock [
 	aBlock value: first.

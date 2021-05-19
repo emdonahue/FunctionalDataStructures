@@ -20,11 +20,6 @@ FDSAbstractQueue classSide >> head: aHead tail: aTail [
 ]
 
 { #category : #classes }
-FDSAbstractQueue classSide >> listClass [
-	^ FDSLinkedList.
-]
-
-{ #category : #classes }
 FDSAbstractQueue >> listClass [
 	^ self class listClass.
 ]

@@ -17,6 +17,11 @@ FDSCollectionEmpty classSide >> fullClass [
 	self explicitRequirement.
 ]
 
+{ #category : #'as yet unclassified' }
+FDSCollectionEmpty classSide >> listClass [
+	^ FDSLinkedList.
+]
+
 { #category : #requirements }
 FDSCollectionEmpty classSide >> singleton [
 	singleton ifNil: [ singleton := self new ].
@@ -26,6 +31,11 @@ FDSCollectionEmpty classSide >> singleton [
 { #category : #comparing }
 FDSCollectionEmpty >> = aCollection [
 	^ self == aCollection.
+]
+
+{ #category : #lazy }
+FDSCollectionEmpty >> append: aCollection [
+	^ aCollection.
 ]
 
 { #category : #enumerating }
