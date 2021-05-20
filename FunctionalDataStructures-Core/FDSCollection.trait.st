@@ -45,6 +45,11 @@ FDSCollection >> anySatisfy: aBlock [
 ]
 
 { #category : #converting }
+FDSCollection >> asArray [ 
+	^ self inject: #() into: [ :a :e | a, {e} ].
+]
+
+{ #category : #converting }
 FDSCollection >> asLinkedList [
 	^ self reverseInject: self listClass empty into: [ :l :e | l add: e ].
 ]
