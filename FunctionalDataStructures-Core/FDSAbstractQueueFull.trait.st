@@ -20,6 +20,11 @@ FDSAbstractQueueFull >> append: aQueue [
 ]
 
 { #category : #enumerating }
+FDSAbstractQueueFull >> collect: aBlock [
+	^ self class head: (head collect: aBlock) tail: (tail collect: aBlock).
+]
+
+{ #category : #enumerating }
 FDSAbstractQueueFull >> do: aBlock [
 	head do: aBlock.
 	tail reverseDo: aBlock.
@@ -47,6 +52,21 @@ FDSAbstractQueueFull >> rejectOne: aBlock [
 		ifNone: [ self class head: head tail: (tail rejectOne: aBlock) ].
 ]
 
+{ #category : #'as yet unclassified' }
+FDSAbstractQueueFull >> replace: rBlock ifFound: fBlock [
+	^ self class head: (head replace: rBlock ifFound: fBlock ifNone: [
+		^ self class head: head tail: (tail replace: rBlock ifFound: fBlock) ]) tail: tail.
+]
+
+{ #category : #'as yet unclassified' }
+FDSAbstractQueueFull >> replace: rBlock ifFound: fBlock ifNone: nBlock [
+	^ self class head: 
+		(head replace: rBlock ifFound: fBlock ifNone: 
+			[ ^ self class head: head tail: 
+				(tail replace: rBlock ifFound: fBlock ifNone: [ ^ nBlock value ]) ]) 
+		tail: tail.
+]
+
 { #category : #accessing }
 FDSAbstractQueueFull >> rest [ 
 	^ head rest 
@@ -58,6 +78,11 @@ FDSAbstractQueueFull >> rest [
 FDSAbstractQueueFull >> reverseDo: aBlock [
 	tail do: aBlock.
 	head reverseDo: aBlock.
+]
+
+{ #category : #enumerating }
+FDSAbstractQueueFull >> select: aBlock [
+	^ self class head: (head select: aBlock) tail: (tail select: aBlock).
 ]
 
 { #category : #'private-accessing' }

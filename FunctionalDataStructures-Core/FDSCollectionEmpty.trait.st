@@ -9,6 +9,11 @@ Trait {
 }
 
 { #category : #classes }
+FDSCollectionEmpty classSide >> associationClass [
+	^ FDSAssociation.
+]
+
+{ #category : #classes }
 FDSCollectionEmpty classSide >> emptyClass [
 ]
 
@@ -38,6 +43,15 @@ FDSCollectionEmpty >> append: aCollection [
 	^ aCollection.
 ]
 
+{ #category : #accessing }
+FDSCollectionEmpty >> at: aKey ifPresent: pBlock ifAbsentPut: aBlock [ 
+	^ self add: (self associationClass key: aKey val: aBlock value).
+]
+
+{ #category : #enumerating }
+FDSCollectionEmpty >> collect: aBlock [ 
+]
+
 { #category : #enumerating }
 FDSCollectionEmpty >> do: aBlock [
 ]
@@ -57,10 +71,23 @@ FDSCollectionEmpty >> rejectOne: aBlock [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+FDSCollectionEmpty >> replace: rBlock ifFound: fBlock [
+]
+
+{ #category : #'as yet unclassified' }
+FDSCollectionEmpty >> replace: rBlock ifFound: fBlock ifNone: nBlock [
+	^ nBlock value.
+]
+
 { #category : #removing }
 FDSCollectionEmpty >> reverse [
 ]
 
 { #category : #enumerating }
 FDSCollectionEmpty >> reverseDo: aBlock [
+]
+
+{ #category : #enumerating }
+FDSCollectionEmpty >> select: aBlock [
 ]

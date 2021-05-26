@@ -6,6 +6,11 @@ Trait {
 }
 
 { #category : #classes }
+FDSCollectionNonEmpty classSide >> associationClass [
+	^ self emptyClass associationClass.
+]
+
+{ #category : #classes }
 FDSCollectionNonEmpty classSide >> fullClass [
 	^ self emptyClass fullClass.
 ]

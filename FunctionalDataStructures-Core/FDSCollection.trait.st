@@ -18,21 +18,6 @@ FDSCollection classSide >> with: anElement [
 	^ self empty add: anElement.
 ]
 
-{ #category : #'instance creation' }
-FDSCollection classSide >> with: aElement with: bElement [
-	^ (self with: aElement) add: bElement.
-]
-
-{ #category : #'instance creation' }
-FDSCollection classSide >> with: aElement with: bElement with: cElement [
-	^ (self with: aElement with: bElement) add: cElement.
-]
-
-{ #category : #'instance creation' }
-FDSCollection classSide >> with: aElement with: bElement with: cElement with: dElement [
-	^ (self with: aElement with: bElement with: cElement) add: dElement.
-]
-
 { #category : #adding }
 FDSCollection >> add: anElement [
 	self explicitRequirement.
@@ -52,6 +37,16 @@ FDSCollection >> asArray [
 { #category : #converting }
 FDSCollection >> asLinkedList [
 	^ self reverseInject: self listClass empty into: [ :l :e | l add: e ].
+]
+
+{ #category : #converting }
+FDSCollection >> asOrderedCollection [
+	^ self inject: OrderedCollection new into: [ :o :e | o add: e; yourself ].
+]
+
+{ #category : #classes }
+FDSCollection >> associationClass [
+	^ self class associationClass.
 ]
 
 { #category : #enumerating }
@@ -156,4 +151,9 @@ FDSCollection >> reverseInject: aValue into: aBlock [
 	v := aValue.
 	self reverseDo: [ :e | v := aBlock value: v value: e ].
 	^ v.
+]
+
+{ #category : #accessing }
+FDSCollection >> size [
+	^ self inject: 0 into: [ :s :e | s + 1 ].
 ]
