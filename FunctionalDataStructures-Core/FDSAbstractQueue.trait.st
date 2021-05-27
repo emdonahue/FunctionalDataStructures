@@ -1,7 +1,5 @@
 Trait {
 	#name : #FDSAbstractQueue,
-	#traits : 'FDSCollection',
-	#classTraits : 'FDSCollection classTrait',
 	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
@@ -17,6 +15,21 @@ FDSAbstractQueue classSide >> head: aHead tail: aTail [
 	^ aHead 
 		ifEmpty: [ self head: aTail reverse ]
 		ifNotEmpty: [ self new head: aHead; tail: aTail ].
+]
+
+{ #category : #'instance creation' }
+FDSAbstractQueue classSide >> with: aElement with: bElement [
+	^ (self with: aElement) add: bElement.
+]
+
+{ #category : #'instance creation' }
+FDSAbstractQueue classSide >> with: aElement with: bElement with: cElement [
+	^ (self with: aElement with: bElement) add: cElement.
+]
+
+{ #category : #'instance creation' }
+FDSAbstractQueue classSide >> with: aElement with: bElement with: cElement with: dElement [
+	^ (self with: aElement with: bElement with: cElement) add: dElement.
 ]
 
 { #category : #classes }
