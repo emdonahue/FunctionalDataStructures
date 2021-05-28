@@ -1,26 +1,42 @@
-Trait {
+Class {
 	#name : #FDSCollection,
+	#superclass : #Object,
 	#category : #'FunctionalDataStructures-Core-superclasses'
 }
 
+{ #category : #classes }
+FDSCollection class >> associationClass [
+	^ self emptyClass associationClass.
+]
+
 { #category : #requirements }
-FDSCollection classSide >> empty [
+FDSCollection class >> empty [
 	^ self emptyClass singleton.
 ]
 
 { #category : #classes }
-FDSCollection classSide >> emptyClass [
-	self explicitRequirement.
+FDSCollection class >> emptyClass [
+	self subclassResponsibility.
+]
+
+{ #category : #classes }
+FDSCollection class >> fullClass [
+	self emptyClass fullClass.
+]
+
+{ #category : #classes }
+FDSCollection class >> listClass [
+	^ self emptyClass listClass.
 ]
 
 { #category : #'instance creation' }
-FDSCollection classSide >> with: anElement [
+FDSCollection class >> with: anElement [
 	^ self empty add: anElement.
 ]
 
 { #category : #adding }
 FDSCollection >> add: anElement [
-	self explicitRequirement.
+	self subclassResponsibility.
 ]
 
 { #category : #enumerating }
@@ -67,7 +83,7 @@ FDSCollection >> detect: aBlock ifNone: bBlock [
 
 { #category : #enumerating }
 FDSCollection >> do: aBlock [
-	self explicitRequirement.
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }
@@ -108,6 +124,11 @@ FDSCollection >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
+FDSCollection >> ifEmpty: aBlock ifNotEmpty: bBlock [
+	^ bBlock cull: self.
+]
+
+{ #category : #testing }
 FDSCollection >> ifNotEmpty: aBlock [ 
 	^ self ifEmpty: self ifNotEmpty: aBlock.
 ]
@@ -121,8 +142,18 @@ FDSCollection >> inject: aValue into: aBlock [
 ]
 
 { #category : #testing }
+FDSCollection >> isEmpty [
+	^ false.
+]
+
+{ #category : #testing }
 FDSCollection >> isNotEmpty [ 
 	^ self isEmpty not.
+]
+
+{ #category : #classes }
+FDSCollection >> listClass [
+	^ self emptyClass listClass.
 ]
 
 { #category : #printing }

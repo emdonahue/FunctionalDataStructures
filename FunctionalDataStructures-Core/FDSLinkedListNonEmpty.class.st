@@ -1,49 +1,63 @@
-Trait {
-	#name : #FDSAbstractLinkedListFull,
+Class {
+	#name : #FDSLinkedListNonEmpty,
+	#superclass : #FDSSequenceable,
 	#instVars : [
 		'first',
 		'rest'
 	],
-	#traits : 'FDSAbstractLinkedList + FDSSequenceableNonEmpty',
-	#classTraits : 'FDSAbstractLinkedList classTrait + FDSSequenceableNonEmpty classTrait',
-	#category : #'FunctionalDataStructures-Core-abstract'
+	#category : #'FunctionalDataStructures-Core-concrete'
 }
 
+{ #category : #classes }
+FDSLinkedListNonEmpty class >> emptyClass [
+	^ FDSLinkedList.
+]
+
+{ #category : #'instance creation' }
+FDSLinkedListNonEmpty class >> first: aFirst rest: aRest [
+	^ self new first: aFirst; rest: aRest.
+]
+
+{ #category : #adding }
+FDSLinkedListNonEmpty >> add: anElement [
+	^ self class first: anElement rest: self.
+]
+
 { #category : #lazy }
-FDSAbstractLinkedListFull >> append: aLinkedList [
+FDSLinkedListNonEmpty >> append: aLinkedList [
 	^ (rest append: aLinkedList) add: first.
 ]
 
 { #category : #accessing }
-FDSAbstractLinkedListFull >> at: aKey ifPresent: pBlock ifAbsentPut: aBlock [ 
+FDSLinkedListNonEmpty >> at: aKey ifPresent: pBlock ifAbsentPut: aBlock [ 
 	^ self replace: [ :a | a isFDSAssociation and: [ aKey = a key ]]
 		ifFound: [ :a | self associationClass key: a key val: (pBlock value: a val) ]
 		ifNone: [ self add: (self associationClass key: aKey val: aBlock value) ].
 ]
 
 { #category : #enumerating }
-FDSAbstractLinkedListFull >> collect: aBlock [ 
+FDSLinkedListNonEmpty >> collect: aBlock [ 
 	^ (rest collect: aBlock) add: (aBlock value: first).
 ]
 
-{ #category : #enumerating }
-FDSAbstractLinkedListFull >> do: aBlock [
+{ #category : #'as yet unclassified' }
+FDSLinkedListNonEmpty >> do: aBlock [
 	aBlock value: first.
 	rest do: aBlock.
 ]
 
 { #category : #accessing }
-FDSAbstractLinkedListFull >> first [
+FDSLinkedListNonEmpty >> first [
 	^ first
 ]
 
 { #category : #accessing }
-FDSAbstractLinkedListFull >> first: anObject [
+FDSLinkedListNonEmpty >> first: anObject [
 	first := anObject
 ]
 
 { #category : #lazy }
-FDSAbstractLinkedListFull >> rejectOne: aBlock [
+FDSLinkedListNonEmpty >> rejectOne: aBlock [
 	^ (aBlock value: first) 
 		ifTrue: rest
 		ifFalse: [ (rest rejectOne: aBlock) add: first ].
@@ -51,14 +65,14 @@ FDSAbstractLinkedListFull >> rejectOne: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
-FDSAbstractLinkedListFull >> replace: rBlock ifFound: fBlock [ 
+FDSLinkedListNonEmpty >> replace: rBlock ifFound: fBlock [ 
 	(rBlock value: first) 
 		ifTrue: [ ^ rest add: (fBlock cull: first) ].
 	^ (rest replace: rBlock ifFound: fBlock) add: first.
 ]
 
 { #category : #'as yet unclassified' }
-FDSAbstractLinkedListFull >> replace: rBlock ifFound: fBlock ifNone: nBlock [
+FDSLinkedListNonEmpty >> replace: rBlock ifFound: fBlock ifNone: nBlock [
 	| replaced r |
 	replaced := false.
 	r := self replace: [ :e | replaced := replaced | (rBlock value: e) ] ifFound: fBlock.
@@ -67,28 +81,28 @@ FDSAbstractLinkedListFull >> replace: rBlock ifFound: fBlock ifNone: nBlock [
 ]
 
 { #category : #accessing }
-FDSAbstractLinkedListFull >> rest [
+FDSLinkedListNonEmpty >> rest [
 	^ rest
 ]
 
 { #category : #accessing }
-FDSAbstractLinkedListFull >> rest: anObject [
+FDSLinkedListNonEmpty >> rest: anObject [
 	rest := anObject
 ]
 
 { #category : #removing }
-FDSAbstractLinkedListFull >> reverse [
+FDSLinkedListNonEmpty >> reverse [
 	^ self inject: self class empty into: [ :r :e | r add: e ].
 ]
 
 { #category : #enumerating }
-FDSAbstractLinkedListFull >> reverseDo: aBlock [ 
+FDSLinkedListNonEmpty >> reverseDo: aBlock [ 
 	rest reverseDo: aBlock.
 	aBlock value: first.
 ]
 
 { #category : #enumerating }
-FDSAbstractLinkedListFull >> select: aBlock [
+FDSLinkedListNonEmpty >> select: aBlock [
 	^ (aBlock value: first) 
 		ifTrue: [ (rest select: aBlock) add: first ]
 		ifFalse: [ rest select: aBlock ].
