@@ -4,7 +4,7 @@ Class {
 	#classVars : [
 		'singleton'
 	],
-	#category : #'FunctionalDataStructures-Core-superclasses'
+	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
 { #category : #comparing }

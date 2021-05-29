@@ -1,7 +1,7 @@
 Class {
 	#name : #FDSCollection,
 	#superclass : #Object,
-	#category : #'FunctionalDataStructures-Core-superclasses'
+	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
 { #category : #classes }

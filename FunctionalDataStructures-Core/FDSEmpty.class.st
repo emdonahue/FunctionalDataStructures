@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'singleton'
 	],
-	#category : #'FunctionalDataStructures-Core-superclasses'
+	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
 { #category : #classes }
