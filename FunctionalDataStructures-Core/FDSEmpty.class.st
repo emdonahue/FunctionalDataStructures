@@ -80,6 +80,11 @@ FDSEmpty >> at: aKey ifPresent: pBlock ifAbsentPut: aBlock [
 	^ self add: (self associationClass key: aKey val: aBlock value).
 ]
 
+{ #category : #accessing }
+FDSEmpty >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [ 
+	^ aBlock value.
+]
+
 { #category : #enumerating }
 FDSEmpty >> collect: aBlock [ 
 ]

@@ -65,6 +65,17 @@ FDSCollection >> associationClass [
 	^ self class associationClass.
 ]
 
+{ #category : #accessing }
+FDSCollection >> atKey: aKey [
+	^ self atKey: aKey ifPresent: [ :e | e ] ifAbsent: [ KeyNotFound signalFor: aKey ].
+]
+
+{ #category : #accessing }
+FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [ 
+	self do: [ :e | aKey = e key ifTrue: [ ^ pBlock cull: e val ]].
+	^ aBlock value.
+]
+
 { #category : #enumerating }
 FDSCollection >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
