@@ -176,15 +176,19 @@ FDSCollection >> printOn: aStream [
 
 { #category : #removing }
 FDSCollection >> remove: anElement [
-	^ self rejectOne: [ :e | anElement = e ].
+	^ self remove: anElement ifPresent: [ :e | e ] ifAbsent: [ ^ self ].
 ]
 
 { #category : #removing }
 FDSCollection >> remove: anElement ifAbsent: aBlock [
-	| present r |
-	present := false.
-	r := self rejectOne: [ :e | present := present | (anElement = e) ].
-	^ present ifTrue: r ifFalse: aBlock.
+	^ self remove: anElement ifPresent: [ :e | e ] ifAbsent: aBlock.
+]
+
+{ #category : #removing }
+FDSCollection >> remove: anElement ifPresent: pBlock ifAbsent: aBlock [
+	anElement isBlock ifFalse: [ 
+		^ self remove: [ :e | anElement = e ] ifPresent: pBlock ifAbsent: aBlock ].
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }

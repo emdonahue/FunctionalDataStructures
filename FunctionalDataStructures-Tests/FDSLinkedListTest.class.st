@@ -27,7 +27,7 @@ FDSLinkedListTest >> testCollect [
 
 { #category : #tests }
 FDSLinkedListTest >> testRejectOne [
-	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) rejectOne: [ :e | e = 2 ]) equals: (FDSLinkedList with: 1 with: 3).
+	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) remove: [ :e | e = 2 ]) equals: (FDSLinkedList with: 1 with: 3).
 ]
 
 { #category : #tests }
@@ -37,8 +37,11 @@ FDSLinkedListTest >> testRemove [
 
 { #category : #tests }
 FDSLinkedListTest >> testRemoveIfAbsent [
-	self assert: ((FDSLinkedList with: 1 with: 2) remove: 2 ifAbsent: 3) equals: (FDSLinkedList with: 1).
-	self assert: ((FDSLinkedList with: 1 with: 2) remove: 4 ifAbsent: 3) equals: 3.
+	| success |
+	success := false.
+	self assert: ((FDSLinkedList with: 1 with: 2) remove: 2 ifAbsent: [ success := true ]) equals: (FDSLinkedList with: 1).
+	self assert: ((FDSLinkedList with: 1 with: 2) remove: 4 ifAbsent: [ success := true ]) equals: (FDSLinkedList with: 1 with: 2).
+	self assert: success.
 ]
 
 { #category : #tests }

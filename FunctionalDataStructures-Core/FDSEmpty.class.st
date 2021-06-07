@@ -181,22 +181,9 @@ FDSEmpty >> printOn: aStream [
 	aStream nextPut: $).
 ]
 
-{ #category : #lazy }
-FDSEmpty >> rejectOne: aBlock [
-	
-]
-
 { #category : #removing }
-FDSEmpty >> remove: anElement [
-	^ self rejectOne: [ :e | anElement = e ].
-]
-
-{ #category : #removing }
-FDSEmpty >> remove: anElement ifAbsent: aBlock [
-	| present r |
-	present := false.
-	r := self rejectOne: [ :e | present := present | (anElement = e) ].
-	^ present ifTrue: r ifFalse: aBlock.
+FDSEmpty >> remove: rBlock ifPresent: pBlock ifAbsent: aBlock [
+	aBlock value.
 ]
 
 { #category : #'as yet unclassified' }

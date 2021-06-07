@@ -6,7 +6,7 @@ Class {
 
 { #category : #classes }
 FDSQueue class >> fullClass [
-	^ FDSQueueFull.
+	^ FDSQueueNonEmpty.
 ]
 
 { #category : #'instance creation' }

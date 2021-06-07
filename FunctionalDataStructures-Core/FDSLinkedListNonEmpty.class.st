@@ -57,10 +57,11 @@ FDSLinkedListNonEmpty >> first: anObject [
 ]
 
 { #category : #lazy }
-FDSLinkedListNonEmpty >> rejectOne: aBlock [
-	^ (aBlock value: first) 
-		ifTrue: rest
-		ifFalse: [ (rest rejectOne: aBlock) add: first ].
+FDSLinkedListNonEmpty >> remove: rBlock ifPresent: pBlock ifAbsent: aBlock [
+	rBlock isBlock ifFalse: [ ^ super remove: rBlock ifPresent: pBlock ifAbsent: aBlock ].
+	^ (rBlock value: first) 
+		ifTrue: [ pBlock value: first. rest ]
+		ifFalse: [ (rest remove: rBlock ifPresent: pBlock ifAbsent: aBlock) add: first ].
 	
 ]
 
