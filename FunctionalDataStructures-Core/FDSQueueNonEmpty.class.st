@@ -93,8 +93,8 @@ FDSQueueNonEmpty >> remove: anEltOrBlock [
 { #category : #lazy }
 FDSQueueNonEmpty >> remove: rBlock ifPresent: pBlock ifAbsent: aBlock [
 	rBlock isBlock ifFalse: [ ^ super remove: rBlock ifPresent: pBlock ifAbsent: aBlock ].
-	^ self class head: (head remove: rBlock ifAbsent: [
-		^ self class head: head tail: (tail remove: rBlock) ]) tail: tail.
+	^ self class head: (head remove: rBlock ifPresent: pBlock ifAbsent: [
+		^ self class head: head tail: (tail remove: rBlock ifPresent: pBlock ifAbsent: aBlock) ]) tail: tail.
 ]
 
 { #category : #'as yet unclassified' }
