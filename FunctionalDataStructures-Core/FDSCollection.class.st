@@ -40,9 +40,9 @@ FDSCollection >> add: anElement [
 ]
 
 { #category : #enumerating }
-FDSCollection >> anySatisfy: aBlock [ 
-	self detect: aBlock ifNone: [ ^ false ].
-	^ true.
+FDSCollection >> anySatisfy: aBlock [
+	self do: [ :e | (aBlock value: e) ifTrue: [ ^ true ] ].
+	^ false.
 ]
 
 { #category : #converting }
@@ -174,6 +174,11 @@ FDSCollection >> printOn: aStream [
 	aStream nextPut: $).
 ]
 
+{ #category : #enumerating }
+FDSCollection >> reject: aBlock [
+	^ self select: [ :e | (aBlock value: e) not ].
+]
+
 { #category : #removing }
 FDSCollection >> remove: anElement [
 	^ self remove: anElement ifPresent: [ :e | e ] ifAbsent: [ ^ self ].
@@ -197,6 +202,11 @@ FDSCollection >> reverseInject: aValue into: aBlock [
 	v := aValue.
 	self reverseDo: [ :e | v := aBlock value: v value: e ].
 	^ v.
+]
+
+{ #category : #enumerating }
+FDSCollection >> select: aBlock [
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }
