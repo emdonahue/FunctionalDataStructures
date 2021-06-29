@@ -40,6 +40,14 @@ FDSLinkedListNonEmpty >> collect: aBlock [
 	^ (rest collect: aBlock) add: (aBlock value: first).
 ]
 
+{ #category : #enumerating }
+FDSLinkedListNonEmpty >> collect: aBlock thenSelect: bBlock [
+	| collected |
+	collected := aBlock value: first.
+	(bBlock value: collected) ifTrue: [ ^ (rest collect: aBlock thenSelect: bBlock) add: collected ].
+	^ rest collect: aBlock thenSelect: bBlock.
+]
+
 { #category : #'as yet unclassified' }
 FDSLinkedListNonEmpty >> do: aBlock [
 	aBlock value: first.

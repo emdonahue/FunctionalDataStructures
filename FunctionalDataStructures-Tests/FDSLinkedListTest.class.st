@@ -26,6 +26,13 @@ FDSLinkedListTest >> testCollect [
 ]
 
 { #category : #tests }
+FDSLinkedListTest >> testCollectThenSelect [
+	self assert: (FDSLinkedList empty collect: [ :e | e + 1] thenSelect: [ :e | e ~= 2 ]) equals: FDSLinkedList empty.
+	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) collect: [ :e | e + 1] thenSelect: [ :e | e ~= 2 ]) 
+		equals: (FDSLinkedList with: 3 with: 4).
+]
+
+{ #category : #tests }
 FDSLinkedListTest >> testRejectOne [
 	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) remove: [ :e | e = 2 ]) equals: (FDSLinkedList with: 1 with: 3).
 ]

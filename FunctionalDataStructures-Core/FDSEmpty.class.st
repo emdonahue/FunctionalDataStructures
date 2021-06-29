@@ -90,6 +90,10 @@ FDSEmpty >> collect: aBlock [
 ]
 
 { #category : #enumerating }
+FDSEmpty >> collect: aBlock thenSelect: bBlock [
+]
+
+{ #category : #enumerating }
 FDSEmpty >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
 ]

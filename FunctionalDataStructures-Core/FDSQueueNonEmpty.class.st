@@ -60,6 +60,11 @@ FDSQueueNonEmpty >> collect: aBlock [
 	^ self class head: (head collect: aBlock) tail: (tail collect: aBlock).
 ]
 
+{ #category : #enumerating }
+FDSQueueNonEmpty >> collect: aBlock thenSelect: bBlock [
+	^ self class head: (head collect: aBlock thenSelect: bBlock) tail: (tail collect: aBlock thenSelect: bBlock).
+]
+
 { #category : #'as yet unclassified' }
 FDSQueueNonEmpty >> do: aBlock [
 	head do: aBlock.

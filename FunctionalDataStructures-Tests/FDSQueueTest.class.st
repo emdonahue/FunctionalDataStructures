@@ -32,6 +32,12 @@ FDSQueueTest >> testCollect [
 ]
 
 { #category : #tests }
+FDSQueueTest >> testCollectThenSelect [
+	self assert: (FDSQueue empty collect: [ :e | e + 1 ] thenSelect: [ :e | e ~= 2 ]) equals: FDSQueue empty.
+	self assert: ((FDSQueue with: 1 with: 2 with: 3) collect: [ :e | e + 1 ] thenSelect: [ :e | e ~= 2 ]) equals: (FDSQueue with: 3 with: 4).
+]
+
+{ #category : #tests }
 FDSQueueTest >> testRemove [ 
 	self assert: ((FDSQueue with: 1) remove: 1) equals: FDSQueue empty.
 	self assert: ((FDSQueue with: 1 with: 2) remove: 1) equals: (FDSQueue with: 2).
