@@ -1,32 +1,48 @@
-Trait {
+Class {
 	#name : #FDSCollection,
-	#category : #'FunctionalDataStructures-Core-superclasses'
+	#superclass : #Object,
+	#category : #'FunctionalDataStructures-Core-abstract'
 }
 
+{ #category : #classes }
+FDSCollection class >> associationClass [
+	^ self emptyClass associationClass.
+]
+
 { #category : #requirements }
-FDSCollection classSide >> empty [
+FDSCollection class >> empty [
 	^ self emptyClass singleton.
 ]
 
 { #category : #classes }
-FDSCollection classSide >> emptyClass [
-	self explicitRequirement.
+FDSCollection class >> emptyClass [
+	self subclassResponsibility.
+]
+
+{ #category : #classes }
+FDSCollection class >> fullClass [
+	self emptyClass fullClass.
+]
+
+{ #category : #classes }
+FDSCollection class >> listClass [
+	^ self emptyClass listClass.
 ]
 
 { #category : #'instance creation' }
-FDSCollection classSide >> with: anElement [
+FDSCollection class >> with: anElement [
 	^ self empty add: anElement.
 ]
 
 { #category : #adding }
 FDSCollection >> add: anElement [
-	self explicitRequirement.
+	self subclassResponsibility.
 ]
 
 { #category : #enumerating }
-FDSCollection >> anySatisfy: aBlock [ 
-	self detect: aBlock ifNone: [ ^ false ].
-	^ true.
+FDSCollection >> anySatisfy: aBlock [
+	self do: [ :e | (aBlock value: e) ifTrue: [ ^ true ] ].
+	^ false.
 ]
 
 { #category : #converting }
@@ -49,6 +65,17 @@ FDSCollection >> associationClass [
 	^ self class associationClass.
 ]
 
+{ #category : #accessing }
+FDSCollection >> atKey: aKey [
+	^ self atKey: aKey ifPresent: [ :e | e ] ifAbsent: [ KeyNotFound signalFor: aKey ].
+]
+
+{ #category : #accessing }
+FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [ 
+	self do: [ :e | aKey = e key ifTrue: [ ^ pBlock cull: e val ]].
+	^ aBlock value.
+]
+
 { #category : #enumerating }
 FDSCollection >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
@@ -67,7 +94,7 @@ FDSCollection >> detect: aBlock ifNone: bBlock [
 
 { #category : #enumerating }
 FDSCollection >> do: aBlock [
-	self explicitRequirement.
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }
@@ -108,6 +135,11 @@ FDSCollection >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
+FDSCollection >> ifEmpty: aBlock ifNotEmpty: bBlock [
+	^ bBlock cull: self.
+]
+
+{ #category : #testing }
 FDSCollection >> ifNotEmpty: aBlock [ 
 	^ self ifEmpty: self ifNotEmpty: aBlock.
 ]
@@ -121,8 +153,18 @@ FDSCollection >> inject: aValue into: aBlock [
 ]
 
 { #category : #testing }
+FDSCollection >> isEmpty [
+	^ false.
+]
+
+{ #category : #testing }
 FDSCollection >> isNotEmpty [ 
 	^ self isEmpty not.
+]
+
+{ #category : #classes }
+FDSCollection >> listClass [
+	^ self emptyClass listClass.
 ]
 
 { #category : #printing }
@@ -132,17 +174,26 @@ FDSCollection >> printOn: aStream [
 	aStream nextPut: $).
 ]
 
+{ #category : #enumerating }
+FDSCollection >> reject: aBlock [
+	^ self select: [ :e | (aBlock value: e) not ].
+]
+
 { #category : #removing }
 FDSCollection >> remove: anElement [
-	^ self rejectOne: [ :e | anElement = e ].
+	^ self remove: anElement ifPresent: [ :e | e ] ifAbsent: [ ^ self ].
 ]
 
 { #category : #removing }
 FDSCollection >> remove: anElement ifAbsent: aBlock [
-	| present r |
-	present := false.
-	r := self rejectOne: [ :e | present := present | (anElement = e) ].
-	^ present ifTrue: r ifFalse: aBlock.
+	^ self remove: anElement ifPresent: [ :e | e ] ifAbsent: aBlock.
+]
+
+{ #category : #removing }
+FDSCollection >> remove: anElement ifPresent: pBlock ifAbsent: aBlock [
+	anElement isBlock ifFalse: [ 
+		^ self remove: [ :e | anElement = e ] ifPresent: pBlock ifAbsent: aBlock ].
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }
@@ -151,6 +202,11 @@ FDSCollection >> reverseInject: aValue into: aBlock [
 	v := aValue.
 	self reverseDo: [ :e | v := aBlock value: v value: e ].
 	^ v.
+]
+
+{ #category : #enumerating }
+FDSCollection >> select: aBlock [
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }

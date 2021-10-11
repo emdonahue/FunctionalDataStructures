@@ -1,12 +1,30 @@
 Class {
 	#name : #FDSQueue,
-	#superclass : #Object,
-	#traits : 'FDSAbstractQueueEmpty',
-	#classTraits : 'FDSAbstractQueueEmpty classTrait',
+	#superclass : #FDSEmpty,
 	#category : #'FunctionalDataStructures-Core-concrete'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #classes }
 FDSQueue class >> fullClass [
-	^ FDSQueueFull.
+	^ FDSQueueNonEmpty.
+]
+
+{ #category : #'instance creation' }
+FDSQueue class >> with: aElement with: bElement [
+	^ (self with: aElement) add: bElement.
+]
+
+{ #category : #'instance creation' }
+FDSQueue class >> with: aElement with: bElement with: cElement [
+	^ (self with: aElement with: bElement) add: cElement.
+]
+
+{ #category : #'instance creation' }
+FDSQueue class >> with: aElement with: bElement with: cElement with: dElement [
+	^ (self with: aElement with: bElement with: cElement) add: dElement.
+]
+
+{ #category : #adding }
+FDSQueue >> add: anElement [
+	^ self fullClass head: (self listClass with: anElement) tail: self listClass empty.
 ]

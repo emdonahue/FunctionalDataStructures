@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfFunctionalDataStructures,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfFunctionalDataStructures
 }
 
