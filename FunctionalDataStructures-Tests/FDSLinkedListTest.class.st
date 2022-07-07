@@ -13,9 +13,9 @@ FDSLinkedListTest >> testAnySatisfy [
 
 { #category : #tests }
 FDSLinkedListTest >> testAtifPresentIfAbsentPut [
-	self assert: (FDSLinkedList empty at: 1 ifPresent: [ :x | x + 2 ] ifAbsentPut: 4) equals: (FDSLinkedList with: (FDSAssociation key: 1 val: 4)).
-	self assert: ((FDSLinkedList with: (FDSAssociation key: 1 val: 2)) at: 1 ifPresent: [ :x | x + 3 ] ifAbsentPut: 4) equals: (FDSLinkedList with: (FDSAssociation key: 1 val: 5)).
-	self assert: ((FDSLinkedList with: (FDSAssociation key: 1 val: 2)) at: 3 ifPresent: [ :x | x + 3 ] ifAbsentPut: 4) equals: (FDSLinkedList with: (FDSAssociation key: 3 val: 4) with: (FDSAssociation key: 1 val: 2)).
+	self assert: (FDSLinkedList empty at: 1 ifPresent: [ :x | x + 2 ] ifAbsent: 4) equals: 4.
+	self assert: ((FDSLinkedList with: 2) at: 2 ifPresent: [ :x | x + 3 ] ifAbsent: 4) equals: 4.
+	self assert: ((FDSLinkedList with: 2) at: 1 ifPresent: [ :x | x + 3 ] ifAbsent: 4) equals: 5.
 ]
 
 { #category : #tests }
