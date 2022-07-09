@@ -71,6 +71,25 @@ FDSCollection >> associationClass [
 ]
 
 { #category : #accessing }
+FDSCollection >> at: anIndex [
+	^ self at: anIndex ifPresent: [ :x | x ] ifAbsent: [ SubscriptOutOfBounds signalFor: anIndex ].
+]
+
+{ #category : #accessing }
+FDSCollection >> at: anIndex ifAbsent: absentBlock [
+	^ self at: anIndex ifPresent: [ :x | x ] ifAbsent: absentBlock.
+]
+
+{ #category : #accessing }
+FDSCollection >> at: anIndex ifPresent: presentBlock ifAbsent: absentBlock [
+	"Order is undefined for non sequenceable collections but YOLO."
+	| i |
+	i := 1.
+	self do: [ :x | i = anIndex ifTrue: [ ^ presentBlock cull: x ]. i := i + 1].
+	^ absentBlock value.
+]
+
+{ #category : #accessing }
 FDSCollection >> atKey: aKey [
 	^ self atKey: aKey ifPresent: [ :e | e ] ifAbsent: [ KeyNotFound signalFor: aKey ].
 ]
