@@ -40,6 +40,12 @@ FDSCollection >> add: anElement [
 ]
 
 { #category : #enumerating }
+FDSCollection >> allSatisfy: aBlock [
+	self do: [ :x | (aBlock cull: x) ifFalse: [ ^ false ]].
+	^ true.
+]
+
+{ #category : #enumerating }
 FDSCollection >> anySatisfy: aBlock [
 	self do: [ :e | (aBlock value: e) ifTrue: [ ^ true ] ].
 	^ false.

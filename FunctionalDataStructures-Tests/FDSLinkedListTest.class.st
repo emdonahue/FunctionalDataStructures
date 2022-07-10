@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #tests }
+FDSLinkedListTest >> testAllSatisfy [
+	self assert: (FDSLinkedList empty allSatisfy: [ :x | x even ]).
+	self assert: ((FDSLinkedList with: 2) allSatisfy: [ :x | x even ]).
+	self deny: ((FDSLinkedList with: 1) allSatisfy: [ :x | x even ]).
+]
+
+{ #category : #tests }
 FDSLinkedListTest >> testAnySatisfy [
 	self assert: ((FDSLinkedList with: 1 with: 2) anySatisfy: [ :e | e = 1 ]).
 	self assert: ((FDSLinkedList with: 1 with: 2) anySatisfy: [ :e | e = 2 ]).
