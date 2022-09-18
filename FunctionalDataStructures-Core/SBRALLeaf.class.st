@@ -27,6 +27,12 @@ SBRALLeaf >> at: nTh put: anElement [
 	^ self class new element: anElement.
 ]
 
+{ #category : #enumerating }
+SBRALLeaf >> do: aBlock [
+	element isFDSPlaceholder ifFalse: [
+		aBlock value: element ].
+]
+
 { #category : #accessing }
 SBRALLeaf >> element [
 	^ element

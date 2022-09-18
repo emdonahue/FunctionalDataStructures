@@ -28,6 +28,13 @@ SBRALTest >> testAddOutOfOrder [
 ]
 
 { #category : #tests }
+SBRALTest >> testAt [
+	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 1) equals: 3.
+	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 2) equals: 2.
+	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 3) equals: 1.
+]
+
+{ #category : #tests }
 SBRALTest >> testAtPut [
 	| sbral |
 	self assert: (((SBRAL empty add: 1) at: 1 put: #symbol) at: 1) equals: #symbol.
@@ -37,4 +44,22 @@ SBRALTest >> testAtPut [
 	1 to: 100 do: [ :i | 
 		sbral := sbral add: i.
 		1 to: i do: [ :j | self assert: ((sbral at: j put: #symbol) at: j) equals: #symbol ] ].
+]
+
+{ #category : #tests }
+SBRALTest >> testCount [
+	"Stress tests #do"
+	self assert: (SBRAL empty count: [ :x | true ]) equals: 0.
+	self assert: ((SBRAL empty addAll: #(42)) count: [ :x | true ]) equals: 1.
+	self assert: ((SBRAL empty addAll: #(42 42)) count: [ :x | true ]) equals: 2.
+	self assert: ((SBRAL empty at: -2 put: 42) count: [ :x | true ]) equals: 1.
+	self assert: ((SBRAL empty at: -20 put: 42) count: [ :x | true ]) equals: 1.
+]
+
+{ #category : #tests }
+SBRALTest >> testDo [
+	| xs |
+	xs := OrderedCollection new.
+	(SBRAL empty addAll: #(1 2 3)) do: [ :x | xs add: x ].
+	self assert: xs asArray equals: #(3 2 1).
 ]

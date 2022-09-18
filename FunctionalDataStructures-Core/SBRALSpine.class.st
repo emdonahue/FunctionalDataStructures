@@ -24,7 +24,7 @@ SBRALSpine >> add: anElement at: anIndex [
 	"Adds anElement at a non-existent index by extending with placeholders. anIndex is negative or 0, signifying the negative index at which it should be placed."
 	<type: #VoidC type: #(OrC negative isZero) type: #SBRALSpine>
 	^ ((1 to: anIndex negated) inject: self into: [ :sbral :i | 
-		sbral add: SBRALPlaceholder placeholder ]) add: anElement
+		sbral add: FDSPlaceholder placeholder ]) add: anElement
 ]
 
 { #category : #adding }
@@ -64,6 +64,17 @@ SBRALSpine >> at: nTh put: anElement [
 	tree size >= nTh "Index contained within tree in this segment"
 		ifTrue: [ ^ self class tree: (tree at: nTh put: anElement) rest: rest ].
 	^ self class tree: tree rest: (rest at: nTh - tree size put: anElement) .
+]
+
+{ #category : #enumerating }
+SBRALSpine >> do: aBlock [
+	tree do: aBlock.
+	rest do: aBlock.
+]
+
+{ #category : #accessing }
+SBRALSpine >> first [
+	^ self at: 1.
 ]
 
 { #category : #testing }

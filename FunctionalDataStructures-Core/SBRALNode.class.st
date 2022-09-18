@@ -54,6 +54,13 @@ SBRALNode >> at: nTh put: anElement [
 	^ self class  root: root left: left right: (right at: nTh - sz put: anElement).
 ]
 
+{ #category : #enumerating }
+SBRALNode >> do: aBlock [
+	root isFDSPlaceholder ifFalse: [ aBlock value: root ].
+	left do: aBlock.
+	right do: aBlock.
+]
+
 { #category : #contracts }
 SBRALNode >> isValid [
 	^ left size = right size & left isValid & right isValid

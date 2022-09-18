@@ -112,6 +112,12 @@ FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [
 ]
 
 { #category : #enumerating }
+FDSCollection >> count: aBlock [
+	^ self inject: 0 into: [ :sum :e | 
+		(aBlock value: e) ifTrue: [ sum + 1 ] ifFalse: [ sum ]].
+]
+
+{ #category : #enumerating }
 FDSCollection >> detect: aBlock ifFound: bBlock [
 	^ self detect: aBlock ifFound: bBlock ifNone: [ NotFound signalFor: aBlock ].
 ]
