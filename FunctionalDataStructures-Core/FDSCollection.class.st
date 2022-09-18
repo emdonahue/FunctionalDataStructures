@@ -39,6 +39,11 @@ FDSCollection >> add: anElement [
 	self subclassResponsibility.
 ]
 
+{ #category : #adding }
+FDSCollection >> addAll: aCollection [
+	^ aCollection inject: self into: [ :s :e | s add: e ].
+]
+
 { #category : #enumerating }
 FDSCollection >> allSatisfy: aBlock [
 	self do: [ :x | (aBlock cull: x) ifFalse: [ ^ false ]].

@@ -1,6 +1,6 @@
 Class {
 	#name : #SBRALSpine,
-	#superclass : #SBRAL,
+	#superclass : #FDSSequenceable,
 	#instVars : [
 		'tree',
 		'size',
@@ -17,6 +17,14 @@ SBRALSpine class >> tree: aTree rest: aSpine [
 { #category : #adding }
 SBRALSpine >> add: anElement [
 	^ tree add: anElement to: self
+]
+
+{ #category : #adding }
+SBRALSpine >> add: anElement at: anIndex [
+	"Adds anElement at a non-existent index by extending with placeholders. anIndex is negative or 0, signifying the negative index at which it should be placed."
+	<type: #VoidC type: #(OrC negative isZero) type: #SBRALSpine>
+	^ ((1 to: anIndex negated) inject: self into: [ :sbral :i | 
+		sbral add: SBRALPlaceholder placeholder ]) add: anElement
 ]
 
 { #category : #adding }

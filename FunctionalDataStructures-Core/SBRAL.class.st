@@ -1,18 +1,14 @@
-"
-Implementation of a Skew Binary Random-Access List from ""Efficient Representations for Triangular Substitutions: A Comparison in Minikanren""
-"
 Class {
 	#name : #SBRAL,
-	#superclass : #Object,
-	#classInstVars : [
-		'empty'
-	],
+	#superclass : #FDSEmpty,
 	#category : #'FunctionalDataStructures-Core'
 }
 
-{ #category : #accessing }
-SBRAL class >> empty [
-	^ empty ifNil: [ empty := SBRALEmpty new ]
+{ #category : #adding }
+SBRAL >> add: anElement [
+	^ SBRALSpine
+		tree: (SBRALLeaf new element: anElement)
+		rest: self.
 ]
 
 { #category : #adding }
@@ -24,6 +20,31 @@ SBRAL >> add: anElement at: anIndex [
 ]
 
 { #category : #adding }
-SBRAL >> addAll: aCollection [
-	^ aCollection inject: self into: [ :sbral :e | sbral add: e ]
+SBRAL >> addLeaf: anElement to: aSpine [
+	^ aSpine addLeaf: anElement.
+]
+
+{ #category : #adding }
+SBRAL >> addNode: anElement to: aSpine [
+	^ aSpine addLeaf: anElement
+]
+
+{ #category : #accessing }
+SBRAL >> at: anIndex put: anElement [
+	^ self add: anElement at: anIndex.
+]
+
+{ #category : #testing }
+SBRAL >> isEmpty [
+	^ true
+]
+
+{ #category : #contracts }
+SBRAL >> isValid [
+	^ true
+]
+
+{ #category : #accessing }
+SBRAL >> size [
+	^ 0
 ]

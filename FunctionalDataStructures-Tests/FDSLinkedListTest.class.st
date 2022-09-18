@@ -1,6 +1,6 @@
 Class {
 	#name : #FDSLinkedListTest,
-	#superclass : #TestCase,
+	#superclass : #FDSTestCase,
 	#category : #'FunctionalDataStructures-Tests'
 }
 
