@@ -19,7 +19,7 @@ FDSLinkedListTest >> testAnySatisfy [
 ]
 
 { #category : #tests }
-FDSLinkedListTest >> testAtifPresentIfAbsentPut [
+FDSLinkedListTest >> testAtifPresentIfAbsent [
 	self assert: (FDSLinkedList empty at: 1 ifPresent: [ :x | x + 2 ] ifAbsent: 4) equals: 4.
 	self assert: ((FDSLinkedList with: 2) at: 2 ifPresent: [ :x | x + 3 ] ifAbsent: 4) equals: 4.
 	self assert: ((FDSLinkedList with: 2) at: 1 ifPresent: [ :x | x + 3 ] ifAbsent: 4) equals: 5.

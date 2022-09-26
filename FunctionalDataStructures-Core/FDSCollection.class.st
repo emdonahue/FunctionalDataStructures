@@ -106,6 +106,11 @@ FDSCollection >> atKey: aKey [
 ]
 
 { #category : #accessing }
+FDSCollection >> atKey: aKey ifAbsent: aBlock [ 
+	^ self atKey: aKey ifPresent: [ :v | v ] ifAbsent: aBlock
+]
+
+{ #category : #accessing }
 FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [ 
 	self do: [ :e | aKey = e key ifTrue: [ ^ pBlock cull: e val ]].
 	^ aBlock value.
