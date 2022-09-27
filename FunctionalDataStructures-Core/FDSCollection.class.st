@@ -247,6 +247,11 @@ FDSCollection >> remove: anElement ifPresent: pBlock ifAbsent: aBlock [
 	self subclassResponsibility.
 ]
 
+{ #category : #removing }
+FDSCollection >> removeKey: aKey [
+	^ self remove: [ :e | e key = aKey ]
+]
+
 { #category : #'as yet unclassified' }
 FDSCollection >> reverseInject: aValue into: aBlock [ 	
 	| v |
