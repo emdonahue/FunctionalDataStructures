@@ -116,6 +116,11 @@ FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [
 	^ aBlock value.
 ]
 
+{ #category : #accessing }
+FDSCollection >> atKey: aKey put: aValue [
+	^ self add: (FDSAssociation key: aKey val: aValue)
+]
+
 { #category : #enumerating }
 FDSCollection >> count: aBlock [
 	^ self inject: 0 into: [ :sum :e | 
