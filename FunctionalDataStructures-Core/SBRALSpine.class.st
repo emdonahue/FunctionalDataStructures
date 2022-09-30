@@ -67,6 +67,13 @@ SBRALSpine >> at: nTh put: anElement [
 ]
 
 { #category : #enumerating }
+SBRALSpine >> collect: aBlock [
+	^ self copy tree: (tree collect: aBlock);
+		rest: (rest collect: aBlock)
+		
+]
+
+{ #category : #enumerating }
 SBRALSpine >> do: aBlock [
 	tree do: aBlock.
 	rest do: aBlock.

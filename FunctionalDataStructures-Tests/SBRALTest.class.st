@@ -47,6 +47,13 @@ SBRALTest >> testAtPut [
 ]
 
 { #category : #tests }
+SBRALTest >> testCollect [
+	self assert: ((SBRAL empty addAll: #(1 2 3 4)) collect: [ :x | x * 2 ]) equals: (SBRAL empty addAll: #(2 4 6 8)).
+	self assert: ((SBRAL empty at: -2 put: 1) collect: [ :x | x * 2 ]) equals: (SBRAL empty at: -2 put: 2).
+	
+]
+
+{ #category : #tests }
 SBRALTest >> testCount [
 	"Stress tests #do"
 	self assert: (SBRAL empty count: [ :x | true ]) equals: 0.

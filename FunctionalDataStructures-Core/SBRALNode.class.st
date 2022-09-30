@@ -55,6 +55,14 @@ SBRALNode >> at: nTh put: anElement [
 ]
 
 { #category : #enumerating }
+SBRALNode >> collect: aBlock [
+	^ self copy
+		root: (root isFDSPlaceholder ifTrue: [root] ifFalse: [ aBlock value: root ]);
+		left: (left collect: aBlock);
+		right: (right collect: aBlock).
+]
+
+{ #category : #enumerating }
 SBRALNode >> do: aBlock [
 	root isFDSPlaceholder ifFalse: [ aBlock value: root ].
 	left do: aBlock.

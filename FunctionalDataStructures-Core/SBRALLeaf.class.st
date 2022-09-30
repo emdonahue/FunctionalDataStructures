@@ -28,6 +28,13 @@ SBRALLeaf >> at: nTh put: anElement [
 ]
 
 { #category : #enumerating }
+SBRALLeaf >> collect: aBlock [
+	^ element isFDSPlaceholder 
+		ifTrue: [ self ]
+		ifFalse: [ self copy element: (aBlock value: element) ].
+]
+
+{ #category : #enumerating }
 SBRALLeaf >> do: aBlock [
 	element isFDSPlaceholder ifFalse: [
 		aBlock value: element ].
