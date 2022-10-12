@@ -226,6 +226,17 @@ FDSCollection >> printOn: aStream [
 ]
 
 { #category : #enumerating }
+FDSCollection >> reduce: aBlock [
+	| reduced started |
+	started := false.
+	reduced := nil.
+	self do: [ :e | started 
+		ifTrue: [ reduced := aBlock value: reduced value: e ] 
+		ifFalse: [ reduced := e. started := true ]].
+	^ reduced.
+]
+
+{ #category : #enumerating }
 FDSCollection >> reject: aBlock [
 	^ self select: [ :e | (aBlock value: e) not ].
 ]

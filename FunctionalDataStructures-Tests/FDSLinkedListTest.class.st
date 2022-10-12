@@ -40,6 +40,12 @@ FDSLinkedListTest >> testCollectThenSelect [
 ]
 
 { #category : #tests }
+FDSLinkedListTest >> testReduce [
+	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) reduce: [ :a :b | a + b ]) 
+		equals: 6.
+]
+
+{ #category : #tests }
 FDSLinkedListTest >> testRejectOne [
 	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) remove: [ :e | e = 2 ]) equals: (FDSLinkedList with: 1 with: 3).
 ]
