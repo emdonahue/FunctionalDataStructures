@@ -12,7 +12,7 @@ SBRALTest class >> lastStoredRun [
 { #category : #tests }
 SBRALTest >> testAdd [
 	| sbral |
-	sbral := SBRAL empty.
+	sbral := FDSSBRAL empty.
 	self assert: sbral size equals: 0.
 	1 to: 100 do: [ :i | 
 		sbral := sbral add: i.
@@ -24,23 +24,23 @@ SBRALTest >> testAdd [
 
 { #category : #tests }
 SBRALTest >> testAddOutOfOrder [
-	self assert: ((SBRAL empty at: 0 put: 42) at: 1) equals: 42.
+	self assert: ((FDSSBRAL empty at: 0 put: 42) at: 1) equals: 42.
 ]
 
 { #category : #tests }
 SBRALTest >> testAt [
-	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 1) equals: 3.
-	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 2) equals: 2.
-	self assert: ((SBRAL empty addAll: #(1 2 3)) at: 3) equals: 1.
+	self assert: ((FDSSBRAL empty addAll: #(1 2 3)) at: 1) equals: 3.
+	self assert: ((FDSSBRAL empty addAll: #(1 2 3)) at: 2) equals: 2.
+	self assert: ((FDSSBRAL empty addAll: #(1 2 3)) at: 3) equals: 1.
 ]
 
 { #category : #tests }
 SBRALTest >> testAtPut [
 	| sbral |
-	self assert: (((SBRAL empty add: 1) at: 1 put: #symbol) at: 1) equals: #symbol.
-	self assert: (((SBRAL empty addAll: #(1 2)) at: 2 put: #symbol) at: 2) equals: #symbol.
-	self assert: (((SBRAL empty addAll: #(1 2 3)) at: 3 put: #symbol) at: 3) equals: #symbol.
-	sbral := SBRAL empty.
+	self assert: (((FDSSBRAL empty add: 1) at: 1 put: #symbol) at: 1) equals: #symbol.
+	self assert: (((FDSSBRAL empty addAll: #(1 2)) at: 2 put: #symbol) at: 2) equals: #symbol.
+	self assert: (((FDSSBRAL empty addAll: #(1 2 3)) at: 3 put: #symbol) at: 3) equals: #symbol.
+	sbral := FDSSBRAL empty.
 	1 to: 100 do: [ :i | 
 		sbral := sbral add: i.
 		1 to: i do: [ :j | self assert: ((sbral at: j put: #symbol) at: j) equals: #symbol ] ].
@@ -48,25 +48,25 @@ SBRALTest >> testAtPut [
 
 { #category : #tests }
 SBRALTest >> testCollect [
-	self assert: ((SBRAL empty addAll: #(1 2 3 4)) collect: [ :x | x * 2 ]) equals: (SBRAL empty addAll: #(2 4 6 8)).
-	self assert: ((SBRAL empty at: -2 put: 1) collect: [ :x | x * 2 ]) equals: (SBRAL empty at: -2 put: 2).
+	self assert: ((FDSSBRAL empty addAll: #(1 2 3 4)) collect: [ :x | x * 2 ]) equals: (FDSSBRAL empty addAll: #(2 4 6 8)).
+	self assert: ((FDSSBRAL empty at: -2 put: 1) collect: [ :x | x * 2 ]) equals: (FDSSBRAL empty at: -2 put: 2).
 	
 ]
 
 { #category : #tests }
 SBRALTest >> testCount [
 	"Stress tests #do"
-	self assert: (SBRAL empty count: [ :x | true ]) equals: 0.
-	self assert: ((SBRAL empty addAll: #(42)) count: [ :x | true ]) equals: 1.
-	self assert: ((SBRAL empty addAll: #(42 42)) count: [ :x | true ]) equals: 2.
-	self assert: ((SBRAL empty at: -2 put: 42) count: [ :x | true ]) equals: 1.
-	self assert: ((SBRAL empty at: -20 put: 42) count: [ :x | true ]) equals: 1.
+	self assert: (FDSSBRAL empty count: [ :x | true ]) equals: 0.
+	self assert: ((FDSSBRAL empty addAll: #(42)) count: [ :x | true ]) equals: 1.
+	self assert: ((FDSSBRAL empty addAll: #(42 42)) count: [ :x | true ]) equals: 2.
+	self assert: ((FDSSBRAL empty at: -2 put: 42) count: [ :x | true ]) equals: 1.
+	self assert: ((FDSSBRAL empty at: -20 put: 42) count: [ :x | true ]) equals: 1.
 ]
 
 { #category : #tests }
 SBRALTest >> testDo [
 	| xs |
 	xs := OrderedCollection new.
-	(SBRAL empty addAll: #(1 2 3)) do: [ :x | xs add: x ].
+	(FDSSBRAL empty addAll: #(1 2 3)) do: [ :x | xs add: x ].
 	self assert: xs asArray equals: #(3 2 1).
 ]

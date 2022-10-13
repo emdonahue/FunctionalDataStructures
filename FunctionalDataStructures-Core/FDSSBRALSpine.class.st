@@ -1,5 +1,5 @@
 Class {
-	#name : #SBRALSpine,
+	#name : #FDSSBRALSpine,
 	#superclass : #FDSSequenceable,
 	#instVars : [
 		'tree',
@@ -10,55 +10,55 @@ Class {
 }
 
 { #category : #'instance creation' }
-SBRALSpine class >> tree: aTree rest: aSpine [
+FDSSBRALSpine class >> tree: aTree rest: aSpine [
 	^ self new tree: aTree; rest: aSpine; size: aTree size + aSpine size
 ]
 
 { #category : #adding }
-SBRALSpine >> add: anElement [
+FDSSBRALSpine >> add: anElement [
 	^ tree add: anElement to: self
 ]
 
 { #category : #adding }
-SBRALSpine >> add: anElement at: anIndex [
+FDSSBRALSpine >> add: anElement at: anIndex [
 	"Adds anElement at a non-existent index by extending with placeholders. anIndex is negative or 0, signifying the negative index at which it should be placed."
-	<type: #VoidC type: #(OrC negative isZero) type: #SBRALSpine>
+	<type: #VoidC type: #(OrC negative isZero) type: #FDSSBRALSpine>
 	^ ((1 to: anIndex negated) inject: self into: [ :sbral :i | 
 		sbral add: FDSPlaceholder placeholder ]) add: anElement
 ]
 
 { #category : #adding }
-SBRALSpine >> addLeaf: anElement [
+FDSSBRALSpine >> addLeaf: anElement [
 	^ self class 
-		tree: (SBRALLeaf new element: anElement)
+		tree: (FDSSBRALLeaf new element: anElement)
 		rest: self.
 ]
 
 { #category : #adding }
-SBRALSpine >> addLeaf: anElement to: aSpine [
+FDSSBRALSpine >> addLeaf: anElement to: aSpine [
 	^ tree addLeaf: anElement to: aSpine
 ]
 
 { #category : #adding }
-SBRALSpine >> addNode: anElement [
+FDSSBRALSpine >> addNode: anElement [
 	^ self class 
-		tree: (SBRALNode root: anElement left: tree right: rest tree)
+		tree: (FDSSBRALNode root: anElement left: tree right: rest tree)
 		rest: rest rest.
 ]
 
 { #category : #adding }
-SBRALSpine >> addNode: anElement to: aSpine [
+FDSSBRALSpine >> addNode: anElement to: aSpine [
 	^ tree addNode: anElement to: aSpine.
 ]
 
 { #category : #accessing }
-SBRALSpine >> at: nTh [
+FDSSBRALSpine >> at: nTh [
 	tree size >= nTh ifTrue: [ ^ tree at: nTh ].
 	^ rest at: (nTh - tree size)
 ]
 
 { #category : #accessing }
-SBRALSpine >> at: nTh put: anElement [
+FDSSBRALSpine >> at: nTh put: anElement [
 	"Inserting elements at indices not reached yet extends the list with placeholders."
 	nTh < 1 ifTrue: [ ^ self add: anElement at: nTh ].
 	tree size >= nTh "Index contained within tree in this segment"
@@ -67,59 +67,59 @@ SBRALSpine >> at: nTh put: anElement [
 ]
 
 { #category : #enumerating }
-SBRALSpine >> collect: aBlock [
+FDSSBRALSpine >> collect: aBlock [
 	^ self copy tree: (tree collect: aBlock);
 		rest: (rest collect: aBlock)
 		
 ]
 
 { #category : #enumerating }
-SBRALSpine >> do: aBlock [
+FDSSBRALSpine >> do: aBlock [
 	tree do: aBlock.
 	rest do: aBlock.
 ]
 
 { #category : #accessing }
-SBRALSpine >> first [
+FDSSBRALSpine >> first [
 	^ self at: 1.
 ]
 
 { #category : #testing }
-SBRALSpine >> isEmpty [
+FDSSBRALSpine >> isEmpty [
 	^ false
 ]
 
 { #category : #contracts }
-SBRALSpine >> isValid [
+FDSSBRALSpine >> isValid [
 	^ ( rest isEmpty or: [ tree size <= rest tree size ]) and: [ tree isValid ].
 ]
 
 { #category : #accessing }
-SBRALSpine >> rest [
+FDSSBRALSpine >> rest [
 	^ rest
 ]
 
 { #category : #accessing }
-SBRALSpine >> rest: anObject [
+FDSSBRALSpine >> rest: anObject [
 	rest := anObject
 ]
 
 { #category : #accessing }
-SBRALSpine >> size [
+FDSSBRALSpine >> size [
 	^ size .
 ]
 
 { #category : #accessing }
-SBRALSpine >> size: anObject [
+FDSSBRALSpine >> size: anObject [
 	size := anObject
 ]
 
 { #category : #accessing }
-SBRALSpine >> tree [
+FDSSBRALSpine >> tree [
 	^ tree
 ]
 
 { #category : #accessing }
-SBRALSpine >> tree: anObject [
+FDSSBRALSpine >> tree: anObject [
 	tree := anObject
 ]
