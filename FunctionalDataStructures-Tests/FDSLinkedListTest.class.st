@@ -19,6 +19,11 @@ FDSLinkedListTest >> testAnySatisfy [
 ]
 
 { #category : #tests }
+FDSLinkedListTest >> testAtKeyifPresentPutIfAbsentPut [
+	self assert: (FDSLinkedList empty atKey: 1 ifPresentPut: [ :x | x + 2 ] ifAbsentPut: 4) equals: (FDSLinkedList with: (FDSAssociation key: 1 val: 4)).
+]
+
+{ #category : #tests }
 FDSLinkedListTest >> testAtifPresentIfAbsent [
 	self assert: (FDSLinkedList empty at: 1 ifPresent: [ :x | x + 2 ] ifAbsent: 4) equals: 4.
 	self assert: ((FDSLinkedList with: 2) at: 2 ifPresent: [ :x | x + 3 ] ifAbsent: 4) equals: 4.
@@ -37,6 +42,14 @@ FDSLinkedListTest >> testCollectThenSelect [
 	self assert: (FDSLinkedList empty collect: [ :e | e + 1] thenSelect: [ :e | e ~= 2 ]) equals: FDSLinkedList empty.
 	self assert: ((FDSLinkedList with: 1 with: 2 with: 3) collect: [ :e | e + 1] thenSelect: [ :e | e ~= 2 ]) 
 		equals: (FDSLinkedList with: 3 with: 4).
+]
+
+{ #category : #tests }
+FDSLinkedListTest >> testGroupBy [
+	self assert: ((FDSLinkedList with: 1 with: 2 with: 3 with: 4) groupBy: #even) equals: 
+		(FDSLinkedList with: 
+			(FDSAssociation key: true val: (FDSLinkedList with: 4 with: 2)) with: 
+			(FDSAssociation key: false val: (FDSLinkedList with: 3 with: 1))).
 ]
 
 { #category : #tests }

@@ -117,8 +117,13 @@ FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [
 ]
 
 { #category : #accessing }
+FDSCollection >> atKey: aKey ifPresentPut: aBlock ifAbsentPut: bBlock [
+	^ self atKey: aKey ifPresent: [ :x | self atKey: aKey put: (aBlock cull: x) ] ifAbsent: [ self atKey: aKey put: bBlock value ]
+]
+
+{ #category : #accessing }
 FDSCollection >> atKey: aKey put: aValue [
-	^ self add: (FDSAssociation key: aKey val: aValue)
+	^ (self removeKey: aKey) add: (FDSAssociation key: aKey val: aValue)
 ]
 
 { #category : #enumerating }
@@ -173,6 +178,16 @@ FDSCollection >> emptyClass [
 { #category : #classes }
 FDSCollection >> fullClass [
 	^ self class fullClass.
+]
+
+{ #category : #enumerating }
+FDSCollection >> groupBy: aBlock [
+	| groups |
+	groups := FDSLinkedList empty.
+	self do: [ :x | | key |
+		key := aBlock value: x.
+		groups := groups atKey: key ifPresentPut: [ :v | v add: x ] ifAbsentPut: [ self class empty add: x ]].
+	^ groups
 ]
 
 { #category : #comparing }
