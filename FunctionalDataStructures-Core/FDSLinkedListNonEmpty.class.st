@@ -85,7 +85,7 @@ FDSLinkedListNonEmpty >> replace: rBlock ifFound: fBlock ifNone: nBlock [
 	| replaced r |
 	replaced := false.
 	r := self replace: [ :e | replaced := replaced | (rBlock value: e) ] ifFound: fBlock.
-	^ replaced ifTrue: r ifFalse: nBlock.
+	^ replaced ifTrue: [r] ifFalse: nBlock.
 	
 ]
 

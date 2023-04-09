@@ -1,6 +1,6 @@
 Class {
 	#name : #FDSQueueTest,
-	#superclass : #TestCase,
+	#superclass : #FDSTestCase,
 	#category : #'FunctionalDataStructures-Tests'
 }
 

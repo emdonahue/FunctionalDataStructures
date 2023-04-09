@@ -19,6 +19,11 @@ FDSAssociation >> = anAssociation [
 	^ key = anAssociation key & (val = anAssociation val).
 ]
 
+{ #category : #converting }
+FDSAssociation >> asAssociation [
+	^ Association key: key value: val.
+]
+
 { #category : #testing }
 FDSAssociation >> isFDSAssociation [
 	^ true.

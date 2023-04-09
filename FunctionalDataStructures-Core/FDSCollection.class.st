@@ -39,6 +39,17 @@ FDSCollection >> add: anElement [
 	self subclassResponsibility.
 ]
 
+{ #category : #adding }
+FDSCollection >> addAll: aCollection [
+	^ aCollection inject: self into: [ :s :e | s add: e ].
+]
+
+{ #category : #enumerating }
+FDSCollection >> allSatisfy: aBlock [
+	self do: [ :x | (aBlock cull: x) ifFalse: [ ^ false ]].
+	^ true.
+]
+
 { #category : #enumerating }
 FDSCollection >> anySatisfy: aBlock [
 	self do: [ :e | (aBlock value: e) ifTrue: [ ^ true ] ].
@@ -48,6 +59,11 @@ FDSCollection >> anySatisfy: aBlock [
 { #category : #converting }
 FDSCollection >> asArray [ 
 	^ self inject: #() into: [ :a :e | a, {e} ].
+]
+
+{ #category : #converting }
+FDSCollection >> asDictionary [
+	^ self inject: Dictionary new into: [ :d :e | d add: e asAssociation; yourself ].
 ]
 
 { #category : #converting }
@@ -66,14 +82,54 @@ FDSCollection >> associationClass [
 ]
 
 { #category : #accessing }
+FDSCollection >> at: anIndex [
+	^ self at: anIndex ifPresent: [ :x | x ] ifAbsent: [ SubscriptOutOfBounds signalFor: anIndex ].
+]
+
+{ #category : #accessing }
+FDSCollection >> at: anIndex ifAbsent: absentBlock [
+	^ self at: anIndex ifPresent: [ :x | x ] ifAbsent: absentBlock.
+]
+
+{ #category : #accessing }
+FDSCollection >> at: anIndex ifPresent: presentBlock ifAbsent: absentBlock [
+	"Order is undefined for non sequenceable collections but YOLO."
+	| i |
+	i := 1.
+	self do: [ :x | i = anIndex ifTrue: [ ^ presentBlock cull: x ]. i := i + 1].
+	^ absentBlock value.
+]
+
+{ #category : #accessing }
 FDSCollection >> atKey: aKey [
 	^ self atKey: aKey ifPresent: [ :e | e ] ifAbsent: [ KeyNotFound signalFor: aKey ].
+]
+
+{ #category : #accessing }
+FDSCollection >> atKey: aKey ifAbsent: aBlock [ 
+	^ self atKey: aKey ifPresent: [ :v | v ] ifAbsent: aBlock
 ]
 
 { #category : #accessing }
 FDSCollection >> atKey: aKey ifPresent: pBlock ifAbsent: aBlock [ 
 	self do: [ :e | aKey = e key ifTrue: [ ^ pBlock cull: e val ]].
 	^ aBlock value.
+]
+
+{ #category : #accessing }
+FDSCollection >> atKey: aKey ifPresentPut: aBlock ifAbsentPut: bBlock [
+	^ self atKey: aKey ifPresent: [ :x | self atKey: aKey put: (aBlock cull: x) ] ifAbsent: [ self atKey: aKey put: bBlock value ]
+]
+
+{ #category : #accessing }
+FDSCollection >> atKey: aKey put: aValue [
+	^ (self removeKey: aKey) add: (FDSAssociation key: aKey val: aValue)
+]
+
+{ #category : #enumerating }
+FDSCollection >> count: aBlock [
+	^ self inject: 0 into: [ :sum :e | 
+		(aBlock value: e) ifTrue: [ sum + 1 ] ifFalse: [ sum ]].
 ]
 
 { #category : #enumerating }
@@ -122,6 +178,16 @@ FDSCollection >> emptyClass [
 { #category : #classes }
 FDSCollection >> fullClass [
 	^ self class fullClass.
+]
+
+{ #category : #enumerating }
+FDSCollection >> groupBy: aBlock [
+	| groups |
+	groups := FDSLinkedList empty.
+	self do: [ :x | | key |
+		key := aBlock value: x.
+		groups := groups atKey: key ifPresentPut: [ :v | v add: x ] ifAbsentPut: [ self class empty add: x ]].
+	^ groups
 ]
 
 { #category : #comparing }
@@ -175,6 +241,17 @@ FDSCollection >> printOn: aStream [
 ]
 
 { #category : #enumerating }
+FDSCollection >> reduce: aBlock [
+	| reduced started |
+	started := false.
+	reduced := nil.
+	self do: [ :e | started 
+		ifTrue: [ reduced := aBlock value: reduced value: e ] 
+		ifFalse: [ reduced := e. started := true ]].
+	^ reduced.
+]
+
+{ #category : #enumerating }
 FDSCollection >> reject: aBlock [
 	^ self select: [ :e | (aBlock value: e) not ].
 ]
@@ -194,6 +271,11 @@ FDSCollection >> remove: anElement ifPresent: pBlock ifAbsent: aBlock [
 	anElement isBlock ifFalse: [ 
 		^ self remove: [ :e | anElement = e ] ifPresent: pBlock ifAbsent: aBlock ].
 	self subclassResponsibility.
+]
+
+{ #category : #removing }
+FDSCollection >> removeKey: aKey [
+	^ self remove: [ :e | e key = aKey ]
 ]
 
 { #category : #'as yet unclassified' }

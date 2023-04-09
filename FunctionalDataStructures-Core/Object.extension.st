@@ -4,3 +4,8 @@ Extension { #name : #Object }
 Object >> isFDSAssociation [
 	^ false.
 ]
+
+{ #category : #'*FunctionalDataStructures-Core' }
+Object >> isFDSPlaceholder [
+	^ false.
+]

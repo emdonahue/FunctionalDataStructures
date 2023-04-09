@@ -76,6 +76,11 @@ FDSEmpty >> associationClass [
 ]
 
 { #category : #accessing }
+FDSEmpty >> at: anIndex ifPresent: presentBlock ifAbsent: absentBlock [
+	^ absentBlock value.
+]
+
+{ #category : #accessing }
 FDSEmpty >> at: aKey ifPresent: pBlock ifAbsentPut: aBlock [ 
 	^ self add: (self associationClass key: aKey val: aBlock value).
 ]

@@ -13,3 +13,13 @@ FDSSequenceable >> = aCollection [
 	self first = aCollection first ifFalse: [ ^ false ].
 	^ self rest = aCollection rest.
 ]
+
+{ #category : #accessing }
+FDSSequenceable >> first [
+	self subclassResponsibility.
+]
+
+{ #category : #accessing }
+FDSSequenceable >> rest [
+	self subclassResponsibility.
+]
